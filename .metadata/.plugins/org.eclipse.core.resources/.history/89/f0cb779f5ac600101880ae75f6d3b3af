@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{template_login.html::head}"></head>
+
+<body>
+    <section>
+        <header>Iniciar Sesión</header>
+
+        <form th:action="@{/login}" method="post">
+            <div class="mb-3 text-start">
+                <label for="inputEmail" class="form-label">Correo electrónico</label>
+                <input type="email" id="inputEmail" class="form-control" name="username" placeholder="ejemplo@correo.com" required>
+            </div>
+
+            <div class="mb-3 text-start">
+                <label for="inputPassword" class="form-label">Contraseña</label>
+                <input type="password" id="inputPassword" class="form-control" name="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn">Ingresar</button>
+
+            <div class="footer-text">
+                <p>¿No tienes una cuenta? <a th:href="@{/Registrarse}">Regístrate</a></p>
+            </div>
+        </form>
+    </section>
+</body>
+
+</html>

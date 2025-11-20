@@ -1,0 +1,71 @@
+package com.sena.evaluacion.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+	private final ServiceLogin serviceLogin;
+	private final CustomSuccessHandler successHandler;
+	private final PasswordEncoder passwordEncoded;
+
+	public SecurityConfig(ServiceLogin serviceLogin,
+			              CustomSuccessHandler successHandler,
+			              PasswordEncoder passwordEncoded) {
+		this.serviceLogin = serviceLogin;
+		this.successHandler = successHandler;
+		this.passwordEncoded = passwordEncoded;
+	}
+
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		authProvider.setUserDetailsService(serviceLogin);
+		authProvider.setPasswordEncoder(passwordEncoded);
+		return authProvider;
+	}
+
+	@Bean
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/", "/assets/**", "/images/**", "/css/**", "/js/**", "/img/**", "/Registrarse").permitAll()
+						.requestMatchers("/api/**").permitAll()
+						.requestMatchers("/usuario/**").hasAuthority("Administrador")
+						.anyRequest().authenticated())
+				.formLogin(login -> login
+						.loginPage("/Login")
+						.loginProcessingUrl("/login")
+				.failureUrl("/Login?error=true")
+				.failureHandler((request, response, exception) -> {
+				    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+				    response.setContentType("application/json");
+				    response.getWriter().write("{\"error\":\"Authentication failed\"}");
+				})
+						.successHandler(successHandler)
+						.permitAll())
+				.logout(logout -> logout
+						.logoutUrl("/logout")
+						.logoutSuccessUrl("/")
+						.permitAll())
+				.userDetailsService(serviceLogin);
+
+		return http.build();
+	}
+
+	@Bean
+	AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
+	}
+
+}

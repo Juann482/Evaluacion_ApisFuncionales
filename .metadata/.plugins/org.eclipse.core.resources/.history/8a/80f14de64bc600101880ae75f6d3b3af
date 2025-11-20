@@ -1,0 +1,86 @@
+package com.sena.evaluacion.apis;
+
+import com.sena.evaluacion.model.Usuario;
+import com.sena.evaluacion.service.IUsuarioService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/usuarios")
+public class ApiUsuario {
+
+    private final IUsuarioService usuarioService;
+
+    public ApiUsuario(IUsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Usuario>> listarTodos() {
+        List<Usuario> usuarios = usuarioService.findAll();
+        return ResponseEntity.ok(usuarios);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> buscarPorId(@PathVariable Integer id) {
+        return usuarioService.get(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<?> crear(@RequestBody Usuario usuario) {
+        try {
+            if (usuario.getEmail() == null || usuario.getEmail().isBlank()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Email inválido");
+            }
+
+            Usuario nuevo = usuarioService.save(usuario);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error creando el usuario");
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizar(@PathVariable Integer id, @RequestBody Usuario usuario) {
+        Optional<Usuario> existente = usuarioService.get(id);
+
+        if (existente.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Usuario u = existente.get();
+        u.setNombre(usuario.getNombre());
+        u.setEmail(usuario.getEmail());
+        u.setPassword(usuario.getPassword());
+        u.setTelefono(usuario.getTelefono());
+
+        try {
+            Usuario actualizado = usuarioService.update(u);
+            return ResponseEntity.ok(actualizado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error actualizando el usuario");
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+        Optional<Usuario> encontrado = usuarioService.get(id);
+
+        if (encontrado.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        usuarioService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}

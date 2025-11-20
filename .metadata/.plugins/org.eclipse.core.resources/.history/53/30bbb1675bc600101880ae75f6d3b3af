@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{template_login.html::head}"></head>
+
+<body>
+	<section>
+		<header>Iniciar Sesión</header>
+
+		<form th:action="@{/login}" method="post">
+			<div class="mb-3 text-start">
+				<label for="inputEmail" class="form-label">Correo electrónico</label>
+				<input type="email" id="inputEmail" class="form-control" name="username"
+					placeholder="ejemplo@correo.com" required>
+			</div>
+
+
+			<div class="mb-3 text-start">
+				<label for="inputPassword" class="form-label">Contraseña</label>
+				<input type="password" id="inputPassword" class="form-control" name="password" placeholder="••••••••"
+					required>
+			</div>
+
+			<button type="submit" class="btn">Ingresar</button>
+
+			<div class="footer-text">
+				<p>¿No tienes una cuenta? <a th:href="@{/Registrarse}">Regístrate</a></p>
+			</div>
+		</form>
+	</section>
+
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<script>
+		document.getElementById('loginForm').addEventListener('submit', function (e) {
+			e.preventDefault();
+
+			// Simulamos una respuesta de error 401 (no autorizado)
+			// En un caso real, esto vendría del servidor
+			const simulateError401 = true;
+
+			if (simulateError401) {
+				// Mostrar SweetAlert para error 401
+				Swal.fire({
+					icon: 'error',
+					title: 'Error de autenticación',
+					text: 'Credenciales incorrectas. Por favor, verifica tu correo y contraseña.',
+					confirmButtonText: 'Entendido',
+					confirmButtonColor: '#6a11cb',
+					customClass: {
+						confirmButton: 'btn'
+					}
+				});
+			} else {
+				// En caso de éxito, continuar con el envío del formulario
+				this.submit();
+			}
+		});
+
+		// Función para mostrar error 401 cuando se recibe del servidor
+		function showError401() {
+			Swal.fire({
+				icon: 'error',
+				title: 'Error de autenticación',
+				text: 'Credenciales incorrectas. Por favor, verifica tu correo y contraseña.',
+				confirmButtonText: 'Entendido',
+				confirmButtonColor: '#6a11cb',
+				customClass: {
+					confirmButton: 'btn'
+				}
+			});
+		}
+
+		// Función para mostrar error de conexión
+		function showConnectionError() {
+			Swal.fire({
+				icon: 'error',
+				title: 'Error de conexión',
+				text: 'No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.',
+				confirmButtonText: 'Entendido',
+				confirmButtonColor: '#6a11cb',
+				customClass: {
+					confirmButton: 'btn'
+				}
+			});
+		}
+
+		// Simulación: mostrar error 401 después de 2 segundos (solo para demostración)
+		setTimeout(() => {
+			// Descomenta la siguiente línea para probar el error 401 automáticamente
+			// showError401();
+		}, 2000);
+	</script>
+</body>
+
+</html>

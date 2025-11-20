@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://thymeLeaf.org">
+
+
+<head th:insert="~{/usuario/template_usuario.html::head}"> </head>
+
+<body>
+
+	<div id="preloader">
+		<div class="spinner"></div>
+	</div>
+
+	<div th:insert="~{/usuario/template_usuario.html::sidebar}"> </div>
+
+	<!-- ======== main-wrapper start =========== -->
+	<main class="main-wrapper">
+
+		<div th:insert="~{/usuario/template_usuario.html::header}"></div>
+
+		<!-- ========== tab components start ========== -->
+		<section class="section">
+
+			<div class="container-fluid">
+				<!-- ========== title-wrapper start ========== -->
+				<div class="title-wrapper pt-30">
+					<div class="row align-items-center">
+						<div class="col-md-6">
+							<div class="title">
+								<h2>Historial de citas</h2>
+							</div>
+						</div>
+						<!-- end col -->
+						<div class="col-md-6">
+							<div class="breadcrumb-wrapper">
+								<nav aria-label="breadcrumb">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item">
+											<a href="#0">Historial</a>
+										</li>
+										<li class="breadcrumb-item active" aria-current="page">
+											Historial de citas
+										</li>
+
+									</ol>
+								</nav>
+							</div>
+						</div>
+						<!-- end col -->
+					</div>
+					<!-- end row -->
+				</div>
+				<div class="card-style mb-15">
+					<br>
+
+					<!-- end input -->
+					<div class="row justify-content-center" data-aos="fade-up" data-aos-delay="300">
+						<div class="col-lg-12">
+							<div class="form-form-wrapper">
+
+								<table class="table datatable">
+									<thead>
+										<tr class="centrados">
+											<th scope="col">Doctor</th>
+											<th scope="col">Fecha y hora</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Descripción</th>
+											
+											<th scope="col"> Editar </th>
+											<th scope="col"> Eliminar </th>
+										</tr>
+									</thead>
+									<tbody th:each="cita: ${citas}">
+										<tr class="centrados">
+											<td th:text="${cita.Usuario.nombre}"></td>
+											<td th:text="${cita.Fecha_hora}"></td>
+											<td th:text="${cita.estado}" style="color: rgb(0, 255, 0);"></td>
+											<td th:text="${cita.Servicio.descripcion}"></td>
+
+											<td><a title="Editar" class="btn btn-warning"
+													th:href="@{/usuario/EditCita/{id} (id = ${cita.id})}">
+
+													<svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+														xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+														<path
+															d="M13.803 6.09787L5.83373 14.0672C5.57259 14.3283 5.37974 14.6497 5.27221 15.003L4.05204 19.0121C3.9714 19.2771 4.04336 19.565 4.23922 19.7608C4.43508 19.9567 4.72294 20.0287 4.98792 19.948L8.99703 18.7279C9.35035 18.6203 9.67176 18.4275 9.93291 18.1663L17.9022 10.1971L13.803 6.09787Z"
+															fill="#eaebf0" />
+														<path
+															d="M18.9628 9.13643L20.22 7.87928C21.0986 7.0006 21.0986 5.57598 20.22 4.6973L19.3028 3.7801C18.4241 2.90142 16.9995 2.90142 16.1208 3.7801L14.8637 5.03721L18.9628 9.13643Z"
+															fill="#eaebf0" />
+													</svg>
+												</a></td>
+											<td><a title="Eliminar" class="btn btn-danger"
+													th:href="@{/usuario/DeleteCita/{id} (id = ${cita.id})}">
+													<svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+														xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+														<path
+															d="M7.99902 4.25C7.99902 3.00736 9.00638 2 10.249 2H13.749C14.9917 2 15.999 3.00736 15.999 4.25V5H18.498C19.7407 5 20.748 6.00736 20.748 7.25C20.748 8.28958 20.043 9.16449 19.085 9.42267C18.8979 9.4731 18.7011 9.5 18.498 9.5H5.5C5.29694 9.5 5.10016 9.4731 4.91303 9.42267C3.95503 9.16449 3.25 8.28958 3.25 7.25C3.25 6.00736 4.25736 5 5.5 5H7.99902V4.25ZM14.499 5V4.25C14.499 3.83579 14.1632 3.5 13.749 3.5H10.249C9.83481 3.5 9.49902 3.83579 9.49902 4.25V5H14.499Z"
+															fill="#eaebf0" />
+														<path
+															d="M4.97514 10.4578L5.54076 19.8848C5.61205 21.0729 6.59642 22 7.78672 22H16.2113C17.4016 22 18.386 21.0729 18.4573 19.8848L19.0229 10.4578C18.8521 10.4856 18.6767 10.5 18.498 10.5H5.5C5.32131 10.5 5.146 10.4856 4.97514 10.4578ZM10.774 13.4339L10.9982 17.9905C11.0185 18.4042 10.6996 18.7561 10.2859 18.7764C9.8722 18.7968 9.52032 18.4779 9.49997 18.0642L9.27581 13.5076C9.25546 13.0938 9.57434 12.742 9.98805 12.7216C10.4018 12.7013 10.7536 13.0201 10.774 13.4339ZM14.0101 12.7216C14.4238 12.742 14.7427 13.0938 14.7223 13.5076L14.4982 18.0642C14.4778 18.4779 14.1259 18.7968 13.7122 18.7764C13.2985 18.7561 12.9796 18.4042 13 17.9905L13.2241 13.4339C13.2445 13.0201 13.5964 12.7013 14.0101 12.7216Z"
+															fill="#eaebf0" />
+													</svg>
+												</a>
+											</td>
+										</tr>
+
+									</tbody>
+
+								</table>
+
+
+							</div>
+						</div>
+					</div>
+					<!-- end input -->
+				</div>
+				<!-- ========== title-wrapper end ========== -->
+			</div>
+
+			<!-- end container -->
+		</section>
+		<!-- ========== tab components end ========== -->
+		<div th:insert="~{/usuario/template_usuario.html::footer}"></div>
+
+	</main>
+	<!-- ======== main-wrapper end =========== -->
+
+	<div th:insert="~{/usuario/template_usuario.html::jsFiles}"></div>
+</body>
+
+</html>

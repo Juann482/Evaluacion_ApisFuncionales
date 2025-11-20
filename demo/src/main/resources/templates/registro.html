@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{template_login.html::head}"></head>
+
+<body>
+	<section class="reg">
+		<header>Registrate</header>
+
+		<form th:action="@{/GuardarUSERR}" method="post">
+			<div class="mb-3 text-start">
+
+				<label>Nombres y apellidos</label>
+				<input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre completo" required
+					autocomplete="off">
+
+			</div>
+
+			<div class="mb-3 text-start">
+
+				<label>Correo electrónico</label>
+				<input type="email" class="form-control" id="email" name="email" placeholder="ejemplo@ejemplo" required
+					autocomplete="off">
+
+			</div>
+			<div class="mb-3 text-start">
+
+				<label>Número de celular</label>
+				<input type="number" class="form-control" id="telefono" name="telefono" placeholder="000 000 0000"
+					required autocomplete="off">
+
+			</div>
+
+			<div class="mb-3 text-start">
+
+				<label>Contraseña</label>
+				<input type="password" class="form-control" id="password" name="password"
+					placeholder="Asignar contraseña" required autocomplete="off">
+
+			</div>
+
+			<button type="submit" class="btn">Registrar</button>
+
+			<div class="footer-text">
+				<p>¿Ya tienes una cuenta? <a th:href="@{/Login}">Iniciar Sesión</a></p>
+			</div>
+		</form>
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+package com.sena.evaluacion.controller;
+
+import java.time.LocalDateTime;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.sena.evaluacion.model.Usuario;
+import com.sena.evaluacion.service.IProfesionalService;
+import com.sena.evaluacion.service.IUsuarioService;
+
+@Controller
+@RequestMapping("/")
+public class HomeUserController {
+	
+	private final Logger LOGGER = LoggerFactory.getLogger(HomeUserController.class);
+
+	@Autowired
+	private IUsuarioService usuarioService;
+
+	@Autowired
+	private IProfesionalService profesionalService;
+	
+	BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
+
+	@GetMapping("Login")
+	private String Inicio() {
+		return "redirect:/login";
+	}
+
+	@GetMapping("/Registrarse")
+	public String GuardarUsuario(Model model) {
+
+		model.addAttribute("CrearUSER", usuarioService.findAll());
+		model.addAttribute("especializacion", profesionalService.findAll());
+
+		return "registro";
+	}
+	
+	@PostMapping("/GuardarUSERR")
+    public String EnviarnewUSER(@ModelAttribute Usuario usuario) {
+    	usuario.setPassword(pe.encode(usuario.getPassword()));
+        usuario.setFecha_registro(LocalDateTime.now());
+        usuario.setRol("Administrador");
+        usuarioService.save(usuario);
+        LOGGER.info("Usuario guardado con éxito: {}", usuario.getNombre());
+        return "redirect:/Login";
+    }
+
+}
