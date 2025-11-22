@@ -86,9 +86,9 @@ public class SecurityConfig {
 						"/Registrarse", "/Registrarse/**", "/GuardarUSERR", "/GuardarUSERR/**")
 				.permitAll()
 
-				.requestMatchers("/usuario/**").hasAuthority("Administrador")
+				.requestMatchers("/usuario/**")
 
-				.anyRequest().authenticated())
+				.authenticated())
 				.formLogin(login -> login.loginPage("/").loginProcessingUrl("/login")
 						.successHandler(successHandler).failureHandler(authenticationFailureHandler()).permitAll())
 				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/Login?logout")

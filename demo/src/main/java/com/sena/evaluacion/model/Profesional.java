@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -23,13 +24,11 @@ public class Profesional {
 	
 	private String especialidad;
 	
-	private LocalTime horaInicio;
+	private LocalTime horario_disponible;
 	
-	private LocalTime horaFin;
-	
-	@OneToMany(mappedBy = "profesional")
+	@ManyToOne
 	@JsonIgnore
-	private List <Usuario> usuario = new ArrayList<>();
+	private Usuario usuario;
 	
 	@OneToMany(mappedBy = "profesional")
 	@JsonIgnore
@@ -37,13 +36,12 @@ public class Profesional {
 
 	public Profesional() {}
 
-	public Profesional(Integer id, String especialidad, LocalTime horaInicio, LocalTime horaFin, List <Usuario> usuario,
+	public Profesional(Integer id, String especialidad, LocalTime horario_disponible, Usuario usuario,
 			List<Cita> cita) {
 		super();
 		this.id = id;
 		this.especialidad = especialidad;
-		this.horaInicio = horaInicio;
-		this.horaFin = horaFin;
+		this.horario_disponible = horario_disponible;
 		this.usuario = usuario;
 		this.cita = cita;
 	}
@@ -65,27 +63,19 @@ public class Profesional {
 		this.especialidad = especialidad;
 	}
 
-	public LocalTime getHoraInicio() {
-		return horaInicio;
+	public LocalTime getHorario_disponible() {
+		return horario_disponible;
 	}
 
-	public void setHoraInicio(LocalTime horaInicio) {
-		this.horaInicio = horaInicio;
+	public void setHorario_disponible(LocalTime horario_disponible) {
+		this.horario_disponible = horario_disponible;
 	}
 
-	public LocalTime getHoraFin() {
-		return horaFin;
-	}
-
-	public void setHoraFin(LocalTime horaFin) {
-		this.horaFin = horaFin;
-	}
-
-	public List <Usuario> getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(List <Usuario> usuario) {
+	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 
@@ -99,9 +89,10 @@ public class Profesional {
 
 	@Override
 	public String toString() {
-		return "Profesional [id=" + id + ", especialidad=" + especialidad + ", horaInicio=" + horaInicio + ", horaFin="
-				+ horaFin + ", usuario=" + usuario + ", cita=" + cita + "]";
-	}	
+		return "Profesional [id=" + id + ", especialidad=" + especialidad + ", horario_disponible=" + horario_disponible
+				+ ", usuario=" + usuario + ", cita=" + cita + "]";
+	}
+
 	
 }
 

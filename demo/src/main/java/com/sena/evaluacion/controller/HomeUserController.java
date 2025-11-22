@@ -49,7 +49,6 @@ public class HomeUserController {
     public String EnviarnewUSER(@ModelAttribute Usuario usuario) {
     	usuario.setPassword(pe.encode(usuario.getPassword()));
         usuario.setFecha_registro(LocalDateTime.now());
-        usuario.setRol("Administrador");
         usuarioService.save(usuario);
         LOGGER.info("Usuario guardado con éxito: {}", usuario.getNombre());
         return "redirect:/";

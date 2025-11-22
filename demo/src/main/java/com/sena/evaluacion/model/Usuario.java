@@ -34,8 +34,6 @@ public class Usuario {
 	
 	private LocalDateTime fecha_registro;
 	
-	private String rol;
-	
 	@ManyToOne
 	@JoinColumn(nullable = true)
 	@JsonIgnore
@@ -58,7 +56,6 @@ public class Usuario {
 		this.fecha_registro = fecha_registro;
 		this.profesional = profesional;
 		this.cita = cita;
-		this.rol = rol;
 	}
 
 	public Integer getId() {
@@ -111,14 +108,6 @@ public class Usuario {
 
 	public Profesional getProfesional() {
 		return profesional;
-	}
-
-	public String getRol() {
-		return rol;
-	}
-
-	public void setRol(String rol) {
-		this.rol = rol;
 	}
 
 	public void setProfesional(Profesional profesional) {

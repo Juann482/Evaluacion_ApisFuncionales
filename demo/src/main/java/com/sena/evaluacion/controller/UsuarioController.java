@@ -59,7 +59,6 @@ public class UsuarioController {
     public String EnviarnewUSER(@ModelAttribute Usuario usuario) {
     	usuario.setPassword(pe.encode(usuario.getPassword()));
         usuario.setFecha_registro(LocalDateTime.now());
-        usuario.setRol("Administrador");
         usuarioService.save(usuario);
         LOGGER.info("Usuario guardado con éxito: {}", usuario.getNombre());
         return "redirect:/usuario/HistorialU";
@@ -164,10 +163,10 @@ public class UsuarioController {
     			.orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + profesion.getId()));
     	
     	especialidad.setEspecialidad(profesion.getEspecialidad());
-    	especialidad.setHoraInicio(profesion.getHoraInicio());
-    	especialidad.setHoraFin(profesion.getHoraFin());
+    	especialidad.setHorario_disponible(profesion.getHorario_disponible());
     	
     	profesionalService.update(especialidad);
+    	
     	LOGGER.warn("Especialidad actualizada con exito: {}", especialidad);
     	
     	return "redirect:/usuario/HistorialE";
