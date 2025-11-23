@@ -60,6 +60,10 @@ public class ApiUsuario {
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizar(@PathVariable Integer id, @RequestBody Usuario usuario) {
         Optional<Usuario> existente = usuarioService.get(id);
+        
+
+    	usuario.setPassword(pe.encode(usuario.getPassword()));
+        usuario.setFecha_registro(LocalDateTime.now());	
 
         if (existente.isEmpty()) {
             return ResponseEntity.notFound().build();

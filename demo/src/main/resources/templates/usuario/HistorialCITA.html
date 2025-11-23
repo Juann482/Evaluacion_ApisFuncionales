@@ -60,7 +60,7 @@
 								<table class="table datatable">
 									<thead>
 										<tr class="centrados">
-											<th scope="col">Doctor</th>
+											<th scope="col">Especialista</th>
 											<th scope="col">Fecha y hora</th>
 											<th scope="col">Estado</th>
 											<th scope="col">Descripción</th>
@@ -71,7 +71,7 @@
 									</thead>
 									<tbody th:each="cita: ${citas}">
 										<tr class="centrados">
-											<td th:text="${cita.Usuario.nombre}"></td>
+											<td th:text="${cita.Profesional != null ? cita.Profesional.especialidad : '-'}"></td>
 											<td th:text="${cita.Fecha_hora}"></td>
 											<td th:text="${cita.estado}" style="color: rgb(0, 255, 0);"></td>
 											<td th:text="${cita.Servicio.descripcion}"></td>

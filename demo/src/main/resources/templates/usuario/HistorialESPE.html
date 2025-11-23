@@ -61,8 +61,7 @@
 									<thead>
 										<tr class="centrados">
 											<th scope="col">Especialidad</th>
-											<th scope="col">Horario de inicio</th>
-											<th scope="col">Horario de finalización</th>
+											<th scope="col">Horario disponible</th>
 
 											<th scope="col"> Editar </th>
 											<th scope="col"> Eliminar </th>
@@ -71,8 +70,7 @@
 									<tbody th:each="esp: ${especialidades}">
 										<tr class="centrados">
 											<td th:text="${esp.especialidad}"></td>
-											<td th:text="${esp.horaInicio}"></td>
-											<td th:text="${esp.horaFin}"></td>
+											<td th:text="${esp.horario_disponible}"></td>
 
 											<td><a title="Editar" class="btn btn-warning"
 													th:href="@{/usuario/EditarES/{id} (id = ${esp.id})}">

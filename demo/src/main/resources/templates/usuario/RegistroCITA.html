@@ -70,9 +70,9 @@
 											<div class="select-style-1">
 												<div class="select-position">
 													<label>Doctor</label>
-													<select id="Usuario" name="Usuario.id">
-														<option th:each="uwu : ${usuarios}" th:value="${uwu.id}"
-															th:text="${uwu.profesional != null ? uwu.nombre + '-' + uwu.profesional.especialidad : uwu.nombre}"></option>
+													<select id="Profesional" name="Profesional.id">
+														<option th:each="uwu : ${especializacion}" th:value="${uwu.id}"
+															th:text="${uwu.especialidad}"></option>
 													</select>
 												</div>
 											</div>
