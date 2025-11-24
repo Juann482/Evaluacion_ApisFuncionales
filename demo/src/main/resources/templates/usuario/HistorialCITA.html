@@ -73,7 +73,12 @@
 										<tr class="centrados">
 											<td th:text="${cita.Profesional != null ? cita.Profesional.especialidad : '-'}"></td>
 											<td th:text="${cita.Fecha_hora}"></td>
-											<td th:text="${cita.estado}" style="color: rgb(0, 255, 0);"></td>
+											<td>
+											    <a th:href="@{/usuario/cita/toggleEstado/{id}(id=${cita.id})}"
+											       th:text="${cita.estado}"
+											       th:style="${cita.estado == 'Activo'} ? 'color: green; font-weight: bold;' : 'color: red; font-weight: bold;'">
+											    </a>
+											</td>
 											<td th:text="${cita.Servicio.descripcion}"></td>
 
 											<td><a title="Editar" class="btn btn-warning"

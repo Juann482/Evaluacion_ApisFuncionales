@@ -34,6 +34,8 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 		usuarioService.findByEmail(correo).ifPresent(user ->{
 			HttpSession session = request.getSession();
 			session.setAttribute("Nombre", user.getNombre());
+			session.setAttribute("idUsuario", user.getId());
+
 		});
 		
 		response.sendRedirect("/usuario/HistorialU");

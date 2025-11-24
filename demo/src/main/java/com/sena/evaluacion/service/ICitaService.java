@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.sena.evaluacion.model.Cita;
+import com.sena.evaluacion.model.Usuario;
 
 public interface ICitaService {
 	
@@ -18,5 +19,6 @@ public interface ICitaService {
 	Cita update(Cita cita);
 	
 	List<Cita> findAll();
+
 
 }

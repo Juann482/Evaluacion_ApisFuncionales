@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sena.evaluacion.model.Cita;
+import com.sena.evaluacion.model.Usuario;
 import com.sena.evaluacion.repository.CitaRepository;
 
 @Service
